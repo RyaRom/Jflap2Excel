@@ -9,9 +9,13 @@ def parse_xml(filename: str) -> dict[str, str]:
         return xmltodict.parse(f.read())
 
 def write_excel(data: list, filename: str) -> None:
-    df = pd.DataFrame('', index = range(100), columns = range(100))
+    rows = {f'q{path['from']}' for path in data}
+    cols = {f'q{path['to']}' for path in data}
+    df = pd.DataFrame(index=sorted(rows), columns=sorted(cols))
     for path in data:
-        df.iloc[int(path['from']), int(path['to'])] = int(path['read'])
+        df.at[f'q{path["from"]}', f'q{path["to"]}'] = path["read"]
+    df = df[sorted(df.columns, key=lambda x: int(x[1:]))]
+    df = df.reindex(sorted(df.index, key=lambda x: int(x[1:])))
     df.to_excel(filename)
 
 def main():
