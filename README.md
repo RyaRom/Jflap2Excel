@@ -2,5 +2,5 @@ Small script that converts Jflap finite automata to excel table I needed for sma
 
 ### Usage
 ```
-./converter <schema.jff path> <table.xlsx path>
+./converter.py <schema.jff path> <table.xlsx path>
 ```
